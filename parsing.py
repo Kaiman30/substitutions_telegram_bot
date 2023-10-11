@@ -28,7 +28,13 @@ def parse_table():
     return substitutions
 
 
-def parse_p():
+def parse_day():
     day = soup.find('div', class_="itemFullText").find('p').text
     
     return day
+
+
+def parse_practice() -> str:
+    practice = soup.find('div', class_="itemFullText").find_all('p')[1].text
+    
+    return practice
