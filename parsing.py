@@ -38,3 +38,9 @@ def parse_practice() -> str:
     practice = soup.find('div', class_="itemFullText").find_all('p')[1].text
     
     return practice
+
+
+def parse_duty():
+    duty = soup.find('div', class_="itemFullText").find_all('p')[2].text
+    
+    return duty

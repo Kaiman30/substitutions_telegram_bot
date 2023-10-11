@@ -1,4 +1,4 @@
-from parsing import parse_table, parse_day, parse_practice
+from parsing import parse_table, parse_day, parse_practice, parse_duty
 import asyncio
 from aiogram import Dispatcher, Bot, F
 from aiogram.filters import Command, CommandObject
@@ -38,13 +38,19 @@ async def start(message: Message):
 @dp.message(Command("help"))
 async def help(message: Message):
     """Команда /help"""
-    await message.answer("Для того, чтобы получить замены на свою группу, напиши номер своей группы с буквами. \nНапример: <b>323С, 341Кп.</b>\n\nТакже можно узнать какие группы сейчас на практике - /practice")
+    await message.answer("Для того, чтобы получить замены на свою группу, напиши номер своей группы с буквами. \nНапример: <b>323С, 341Кп.</b>\n\nТакже можно узнать какие группы сейчас на практике - /practice\nи на дежурстве - /duty")
 
 
 @dp.message(Command("practice"))
 async def practice(message: Message):
     """Команда /practice"""
     await message.answer(f"На практике сейчас: {parse_practice().replace('– практика', '')}")
+
+
+@dp.message(Command("duty"))
+async def duty(message: Message):
+    """Команда /duty"""
+    await message.answer(f"На дежурстве сейчас: {parse_duty().replace('- дежурная', '')}")
 
 
 @dp.message()
