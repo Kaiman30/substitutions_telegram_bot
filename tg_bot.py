@@ -4,6 +4,8 @@ from aiogram import Dispatcher, Bot, F
 from aiogram.filters import Command, CommandObject
 from aiogram.types import Message
 
+import keyboards
+
 
 # Инициализация переменных
 TOKEN = "6428011950:AAHFDpileIsy7fVH12_nwl0vcgCcZLtW85E"
@@ -32,25 +34,38 @@ def work_with_subs():
 @dp.message(Command("start"))
 async def start(message: Message):
     """Команда /start"""
-    await message.answer(f"Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши /help")
+    await message.answer(f'Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши "Помощь"\nДля твоего удобства я вывел клавиатуру',
+                         reply_markup=keyboards.main_kb)
 
 
-@dp.message(Command("help"))
+@dp.message(F.text.lower() == "помощь")
 async def help(message: Message):
     """Команда /help"""
-    await message.answer("Для того, чтобы получить замены на свою группу, напиши номер своей группы с буквами. \nНапример: <b>323С, 341Кп.</b>\n\nТакже можно узнать какие группы сейчас на практике - /practice\nи на дежурстве - /duty")
+    await message.answer("Для того, чтобы получить замены на свою группу, напиши номер своей группы. \nНапример: <b>323С, 341Кп.</b>\n\nТакже доступен другой функционал, который выписан в клавиатуре")
 
 
-@dp.message(Command("practice"))
+@dp.message(F.text.lower() == "практика")
 async def practice(message: Message):
     """Команда /practice"""
     await message.answer(f"На практике сейчас: <b>{parse_practice().replace('– практика', '')}</b>")
     
 
-@dp.message(Command("duty"))
+@dp.message(F.text.lower() == "дежурство")
 async def duty(message: Message):
     """Команда /duty"""
     await message.answer(f"На дежурстве сейчас: <b>{parse_duty().replace('- дежурная', '')}</b>")
+
+
+@dp.message(F.text.lower() == "контакты")
+async def contacts(message: Message):
+    """Команда /contacts"""
+    await message.answer("Мои контакты:\ntg: @qqwln\nvk: https://vk.com/garem_05")
+
+
+@dp.message(F.text.lower() == "день замен")
+async def day(message: Message):
+    """Команда /day"""
+    await message.answer(f"<b>{parse_day()}</b>")
 
 
 @dp.message()
