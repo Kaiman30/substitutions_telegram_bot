@@ -6,10 +6,12 @@ URL = "https://auto-meh.ru/studentu/ochnoe-otdelenie/zameny-ochnogo-otdeleniya.h
 
 page = requests.get(URL)
 
-def parsing():
-    soup = BeautifulSoup(page.text, "lxml")
-    table = soup.find('div', class_="itemFullText").find('table').find_all('td')
+soup = BeautifulSoup(page.text, "lxml")
 
+
+def parse_table():
+    table = soup.find('div', class_="itemFullText").find('table').find_all('td')
+    
     substitutions = []
 
     for item in table:
@@ -24,3 +26,9 @@ def parsing():
                 file.writelines(i + '\n')
 
     return substitutions
+
+
+def parse_p():
+    day = soup.find('div', class_="itemFullText").find('p').text
+    
+    return day

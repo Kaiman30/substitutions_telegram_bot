@@ -1,4 +1,4 @@
-from parsing import parsing
+from parsing import parse_table, parse_p
 import asyncio
 from aiogram import Dispatcher, Bot, F
 from aiogram.filters import Command, CommandObject
@@ -12,7 +12,8 @@ dp = Dispatcher()
 
 
 def work_with_subs():
-    parsing()
+    parse_table()
+    parse_p()
     with open("subs.txt", "r") as file:
         subs = file.readlines()
         new_subs = [item.strip() for item in subs]     
@@ -51,7 +52,7 @@ async def sendsubs(message: Message):
         for sublist in result:
             if sublist[0] == groupnumber:
                 foundsubs = True
-                subsinfo = f"Замены на группу {sublist[0]}\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
+                subsinfo = f"{parse_p()}\nдля группы {sublist[0]}:\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
                 await message.answer(subsinfo)
         if not foundsubs:
             await message.answer("Замен на эту группу нет")
