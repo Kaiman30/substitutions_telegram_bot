@@ -42,16 +42,19 @@ async def help(message: Message):
 @dp.message()
 async def sendsubs(message: Message):
     """Отправка замен"""
-    result = work_with_subs()
-    groupnumber = message.text
-    foundsubs = False
-    for sublist in result:
-        if sublist[0] == groupnumber:
-            foundsubs = True
-            subsinfo = f"Замены на группу {sublist[0]}\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
-            await message.answer(subsinfo)
-    if not foundsubs:
-        await message.answer("Замен на эту группу нет")
+    if message.text.islower():
+        await message.answer("Неверный формат группы");
+    else:
+        result = work_with_subs()
+        groupnumber = message.text
+        foundsubs = False
+        for sublist in result:
+            if sublist[0] == groupnumber:
+                foundsubs = True
+                subsinfo = f"Замены на группу {sublist[0]}\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
+                await message.answer(subsinfo)
+        if not foundsubs:
+            await message.answer("Замен на эту группу нет")
 
 
 async def main():
