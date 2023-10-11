@@ -1,5 +1,4 @@
 aiogram
 bs4
-pandas
 lxml
 requests

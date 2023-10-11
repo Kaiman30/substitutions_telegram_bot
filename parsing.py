@@ -1,5 +1,4 @@
 import requests
-import pandas as pd
 from bs4 import BeautifulSoup
 
 URL = "https://auto-meh.ru/studentu/ochnoe-otdelenie/zameny-ochnogo-otdeleniya.html"

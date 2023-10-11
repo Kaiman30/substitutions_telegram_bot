@@ -5,7 +5,7 @@ from aiogram.filters import Command, CommandObject
 from aiogram.types import Message
 
 
-#Инициализация переменных
+# Инициализация переменных
 TOKEN = "6428011950:AAHFDpileIsy7fVH12_nwl0vcgCcZLtW85E"
 bot = Bot(token=TOKEN, parse_mode="HTML")
 dp = Dispatcher()
@@ -33,7 +33,7 @@ def work_with_subs():
 async def start(message: Message):
     """Команда /start"""
     await message.answer(f"Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши /help")
-    
+
 
 @dp.message(Command("help"))
 async def help(message: Message):
@@ -44,13 +44,13 @@ async def help(message: Message):
 @dp.message(Command("practice"))
 async def practice(message: Message):
     """Команда /practice"""
-    await message.answer(f"На практике сейчас: {parse_practice().replace('– практика', '')}")
-
+    await message.answer(f"На практике сейчас: <b>{parse_practice().replace('– практика', '')}</b>")
+    
 
 @dp.message(Command("duty"))
 async def duty(message: Message):
     """Команда /duty"""
-    await message.answer(f"На дежурстве сейчас: {parse_duty().replace('- дежурная', '')}")
+    await message.answer(f"На дежурстве сейчас: <b>{parse_duty().replace('- дежурная', '')}</b>")
 
 
 @dp.message()
@@ -67,7 +67,7 @@ async def sendsubs(message: Message):
         for sublist in result:
             if sublist[0] == groupnumber:
                 foundsubs = True
-                subsinfo = f"{parse_day()}\nдля группы {sublist[0]}:\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
+                subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
                 await message.answer(subsinfo)
                 
         if not foundsubs:
