@@ -43,3 +43,8 @@ def parse_duty():
     duty = soup.find('div', class_="itemFullText").find_all('p')[2].text
     
     return duty
+
+def parse_modifyDate():
+    modifyDate = soup.find('span', class_="itemDateModified").text
+    
+    return modifyDate

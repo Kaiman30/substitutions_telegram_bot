@@ -1,4 +1,8 @@
-from parsing import parse_table, parse_day, parse_practice, parse_duty
+from parsing import (parse_table, 
+                     parse_day, 
+                     parse_practice, 
+                     parse_duty,
+                     parse_modifyDate)
 import asyncio
 from aiogram import Dispatcher, Bot, F
 from aiogram.filters import Command, CommandObject
@@ -19,6 +23,7 @@ def work_with_subs():
     parse_day()
     parse_duty()
     parse_practice()
+    parse_modifyDate()
     with open("subs.txt", "r") as file:
         subs = file.readlines()
         new_subs = [item.strip() for item in subs]     
@@ -30,7 +35,7 @@ def work_with_subs():
         sublist = new_subs[i:i+5]
         result.append(sublist)
     
-    return resultimport
+    return result
     
 
 @dp.message(Command("start"))
@@ -67,28 +72,25 @@ async def contacts(message: Message):
 @dp.message(F.text.lower() == "день замен")
 async def day(message: Message):
     """Команда /day"""
-    await message.answer(f"<b>{parse_day()}</b>")
+    await message.answer(f"<b>{parse_day()}</b>\n\n{parse_modifyDate().strip()}")
 
 
 @dp.message()
 async def sendsubs(message: Message):
     """Отправка замен"""
-    if message.text.islower():
-        await message.answer("Неверный формат группы");
+    groupnumber = message.text
+    lowergroupnumber = groupnumber.lower()
+    foundsubs = False
+    result = work_with_subs()
         
-    else:
-        groupnumber = message.text
-        foundsubs = False
-        result = work_with_subs()
-        
-        for sublist in result:
-            if sublist[0] == groupnumber:
-                foundsubs = True
-                subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
-                await message.answer(subsinfo)
+    for sublist in result:
+        if sublist[0].lower() == lowergroupnumber:
+            foundsubs = True
+            subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
+            await message.answer(subsinfo)
                 
-        if not foundsubs:
-            await message.answer("Замен на эту группу нет")
+    if not foundsubs:
+        await message.answer("Замен на эту группу нет")
 
 
 async def update_subs_periodically():
