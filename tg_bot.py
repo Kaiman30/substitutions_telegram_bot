@@ -75,16 +75,48 @@ async def day(message: Message):
     await message.answer(f"<b>{parse_day()}</b>\n\n{parse_modifyDate().strip()}")
 
 
+################ На будущее для бесед
+# @dp.message(Command("sendsubs"))
+# async def send_subs(message: Message):
+#     """Команда /sendsubs"""
+#     try:
+#         groupnumber = message.text.split()[1]
+#     except IndexError:
+#         await message.answer("Please provide a group number.")
+#         return
+
+#     if groupnumber is None:
+#         await message.answer("Invalid group number.")
+#         return
+
+#     groupnumber_lower = groupnumber.lower()
+
+#     if sublist is not None and sublist[0] is not None and sublist[0].lower() == groupnumber_lower:
+#         # Send substitutions
+#         substitutions = get_substitutions(groupnumber_lower)
+#         await message.answer(substitutions)
+#     else:
+#         await message.answer("Invalid group number.")
+
+# def get_substitutions(groupnumber):
+
+#     return "Substitutions for the group."
+
+
 @dp.message()
 async def sendsubs(message: Message):
     """Отправка замен"""
-    groupnumber = message.text
-    lowergroupnumber = groupnumber.lower()
+    groupnumber = message.text # получаем номер группы от пользователя
     foundsubs = False
     result = work_with_subs()
-        
+    
+    if groupnumber is None:
+        await message.answer("Укажите номер группы")
+        return
+    lower_groupnumber = groupnumber.lower()
+    
     for sublist in result:
-        if sublist[0].lower() == lowergroupnumber:
+        if sublist is not None and sublist[0] is not None and sublist[0].lower() == lower_groupnumber:
             foundsubs = True
             subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
             await message.answer(subsinfo)
@@ -94,6 +126,7 @@ async def sendsubs(message: Message):
 
 
 async def update_subs_periodically():
+    """Обновление замен каждые 15 минут"""
     while True:
         work_with_subs()
         print(f"Замены успешно обновлены! текущий день: {parse_day()}")
@@ -101,11 +134,12 @@ async def update_subs_periodically():
 
 
 async def main():
+    asyncio.create_task(update_subs_periodically()) # Обновление замен при запуске
     """Старт бота"""
     await bot.delete_webhook(drop_pending_updates=True) # Скипает обновления
     await dp.start_polling(bot)
 
-    asyncio.create_task(update_subs_periodically())
+    
     
     
 if __name__ == "__main__":
