@@ -3,7 +3,7 @@ import asyncio
 from aiogram import Dispatcher, Bot, F
 from aiogram.filters import Command, CommandObject
 from aiogram.types import Message
-
+import asyncio
 import keyboards
 
 
@@ -17,6 +17,8 @@ def work_with_subs():
     """Работа с заменами"""
     parse_table()
     parse_day()
+    parse_duty()
+    parse_practice()
     with open("subs.txt", "r") as file:
         subs = file.readlines()
         new_subs = [item.strip() for item in subs]     
@@ -28,8 +30,8 @@ def work_with_subs():
         sublist = new_subs[i:i+5]
         result.append(sublist)
     
-    return result
-
+    return resultimport
+    
 
 @dp.message(Command("start"))
 async def start(message: Message):
@@ -59,7 +61,7 @@ async def duty(message: Message):
 @dp.message(F.text.lower() == "контакты")
 async def contacts(message: Message):
     """Команда /contacts"""
-    await message.answer("Мои контакты:\ntg: @qqwln\nvk: https://vk.com/garem_05")
+    await message.answer("Мои контакты:\ntg: @qqwln\nvk: https://vk.com/garem_05\nКанал о разработке: @qqwlndev")
 
 
 @dp.message(F.text.lower() == "день замен")
@@ -89,11 +91,20 @@ async def sendsubs(message: Message):
             await message.answer("Замен на эту группу нет")
 
 
+async def update_subs_periodically():
+    while True:
+        work_with_subs()
+        print(f"Замены успешно обновлены! текущий день: {parse_day()}")
+        await asyncio.sleep(900)
+
+
 async def main():
     """Старт бота"""
     await bot.delete_webhook(drop_pending_updates=True) # Скипает обновления
     await dp.start_polling(bot)
 
-
+    asyncio.create_task(update_subs_periodically())
+    
+    
 if __name__ == "__main__":
     asyncio.run(main())
