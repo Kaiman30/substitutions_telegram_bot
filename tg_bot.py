@@ -41,14 +41,14 @@ def work_with_subs():
 @dp.message(Command("start"))
 async def start(message: Message):
     """Команда /start"""
-    await message.answer(f'Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши "Помощь"\nДля твоего удобства я вывел клавиатуру',
+    await message.answer(f'Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши "Помощь"',
                          reply_markup=keyboards.main_kb)
 
 
 @dp.message(F.text.lower() == "помощь")
 async def help(message: Message):
     """Команда /help"""
-    await message.answer("Для того, чтобы получить замены на свою группу, напиши номер своей группы. \nНапример: <b>323С, 341Кп.</b>\n\nТакже доступен другой функционал, который выписан в клавиатуре")
+    await message.answer("Для того, чтобы получить замены на свою группу, напиши /sendsubs и номер своей группы. \nНапример: <b>/sendsubs 323С, /sendsubs 341Кп.</b>\n\nТакже доступен другой функционал, подробнее можно узнать на канале @qqwlndev")
 
 
 @dp.message(F.text.lower() == "практика")
@@ -75,54 +75,52 @@ async def day(message: Message):
     await message.answer(f"<b>{parse_day()}</b>\n\n{parse_modifyDate().strip()}")
 
 
-################ На будущее для бесед
-# @dp.message(Command("sendsubs"))
-# async def send_subs(message: Message):
-#     """Команда /sendsubs"""
-#     try:
-#         groupnumber = message.text.split()[1]
-#     except IndexError:
-#         await message.answer("Please provide a group number.")
-#         return
-
-#     if groupnumber is None:
-#         await message.answer("Invalid group number.")
-#         return
-
-#     groupnumber_lower = groupnumber.lower()
-
-#     if sublist is not None and sublist[0] is not None and sublist[0].lower() == groupnumber_lower:
-#         # Send substitutions
-#         substitutions = get_substitutions(groupnumber_lower)
-#         await message.answer(substitutions)
-#     else:
-#         await message.answer("Invalid group number.")
-
-# def get_substitutions(groupnumber):
-
-#     return "Substitutions for the group."
-
-
-@dp.message()
+@dp.message(Command("sendsubs"))
 async def sendsubs(message: Message):
-    """Отправка замен"""
-    groupnumber = message.text # получаем номер группы от пользователя
+    """Команда /sendsubs"""
     foundsubs = False
     result = work_with_subs()
-    
+    try:
+        groupnumber = message.text.split()[1]
+    except IndexError:
+        await message.answer("Укажите номер группы")
+        return
+
     if groupnumber is None:
         await message.answer("Укажите номер группы")
         return
-    lower_groupnumber = groupnumber.lower()
-    
+
+    groupnumber_lower = groupnumber.lower()
     for sublist in result:
-        if sublist is not None and sublist[0] is not None and sublist[0].lower() == lower_groupnumber:
+        if sublist is not None and sublist[0] is not None and sublist[0].lower() == groupnumber_lower:
+            # Send substitutions
             foundsubs = True
             subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
             await message.answer(subsinfo)
-                
     if not foundsubs:
         await message.answer("Замен на эту группу нет")
+
+
+# @dp.message()
+# async def sendsubs(message: Message):
+#     """Отправка замен"""
+#     groupnumber = message.text # получаем номер группы от пользователя
+#     foundsubs = False
+#     result = work_with_subs()
+    
+#     if groupnumber is None:
+#         await message.answer("Укажите номер группы")
+#         return
+#     lower_groupnumber = groupnumber.lower()
+    
+#     for sublist in result:
+#         if sublist is not None and sublist[0] is not None and sublist[0].lower() == lower_groupnumber:
+#             foundsubs = True
+#             subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
+#             await message.answer(subsinfo)
+                
+#     if not foundsubs:
+#         await message.answer("Замен на эту группу нет")
 
 
 async def update_subs_periodically():
