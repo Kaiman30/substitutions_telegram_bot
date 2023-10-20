@@ -75,7 +75,7 @@ async def day(message: Message):
     await message.answer(f"<b>{parse_day()}</b>\n\n{parse_modifyDate().strip()}")
 
 
-@dp.message(Command("sendsubs"))
+@dp.message(Command("subs"))
 async def sendsubs(message: Message):
     """Команда /sendsubs"""
     foundsubs = False
