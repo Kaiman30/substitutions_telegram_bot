@@ -41,38 +41,39 @@ def work_with_subs():
 @dp.message(Command("start"))
 async def start(message: Message):
     """Команда /start"""
-    await message.answer(f'Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши "Помощь"',
-                         reply_markup=keyboards.main_kb)
+    await message.answer(f'Привет! \n<b>Я</b> - бот, написанный @qqwln, по всем вопросам, пиши ему.\nЧтобы получше узнать мой функционал, пиши "Помощь"')#,
+                         #reply_markup=keyboards.main_kb)
 
 
-@dp.message(F.text.lower() == "помощь")
+@dp.message(Command("help"))
 async def help(message: Message):
     """Команда /help"""
     await message.answer("Для того, чтобы получить замены на свою группу, напиши /sendsubs и номер своей группы. \nНапример: <b>/sendsubs 323С, /sendsubs 341Кп.</b>\n\nТакже доступен другой функционал, подробнее можно узнать на канале @qqwlndev")
 
 
-@dp.message(F.text.lower() == "практика")
+@dp.message(Command("practice"))
 async def practice(message: Message):
     """Команда /practice"""
     await message.answer(f"На практике сейчас: <b>{parse_practice().replace('– практика', '')}</b>")
     
 
-@dp.message(F.text.lower() == "дежурство")
+@dp.message(Command("duty"))
 async def duty(message: Message):
     """Команда /duty"""
     await message.answer(f"На дежурстве сейчас: <b>{parse_duty().replace('- дежурная', '')}</b>")
 
 
-@dp.message(F.text.lower() == "контакты")
+@dp.message(Command("contacts"))
 async def contacts(message: Message):
     """Команда /contacts"""
     await message.answer("Мои контакты:\ntg: @qqwln\nvk: https://vk.com/garem_05\nКанал о разработке: @qqwlndev")
 
 
-@dp.message(F.text.lower() == "день замен")
+@dp.message(Command("day"))
 async def day(message: Message):
     """Команда /day"""
-    await message.answer(f"<b>{parse_day()}</b>\n\n{parse_modifyDate().strip()}")
+    await message.reply(f"<b>{parse_day()}</b>\n\n{parse_modifyDate().strip()}")
+        
 
 
 @dp.message(Command("subs"))
