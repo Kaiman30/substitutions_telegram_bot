@@ -48,7 +48,7 @@ async def start(message: Message):
 @dp.message(Command("help"))
 async def help(message: Message):
     """Команда /help"""
-    await message.answer("Для того, чтобы получить замены на свою группу, напиши /sendsubs и номер своей группы. \nНапример: <b>/sendsubs 323С, /sendsubs 341Кп.</b>\n\nТакже доступен другой функционал, подробнее можно узнать на канале @qqwlndev")
+    await message.answer("Для того, чтобы получить замены на свою группу, напиши /subs и номер своей группы. \nНапример: <b>/subs 323С, /subs 341Кп.</b>\n\nТакже доступен другой функционал, подробнее можно узнать на канале @qqwlndev")
 
 
 @dp.message(Command("practice"))
