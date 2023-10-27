@@ -1,4 +1,4 @@
-from parsing import (parse_table, 
+from parsing import (parse_tables, 
                      parse_day, 
                      parse_practice, 
                      parse_duty,
@@ -19,7 +19,7 @@ dp = Dispatcher()
 
 def work_with_subs():
     """Работа с заменами"""
-    parse_table()
+    parse_tables()
     parse_day()
     parse_duty()
     parse_practice()
@@ -78,7 +78,7 @@ async def day(message: Message):
 
 @dp.message(Command("subs"))
 async def sendsubs(message: Message):
-    """Команда /sendsubs"""
+    """Команда /subs"""
     foundsubs = False
     result = work_with_subs()
     try:
