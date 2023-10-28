@@ -24,15 +24,25 @@ def work_with_subs():
     parse_duty()
     parse_practice()
     parse_modifyDate()
+    
     with open("subs.txt", "r") as file:
         subs = file.readlines()
-        new_subs = [item.strip() for item in subs]     
-    # Создаем пустой список, в котором будут храниться все списки по 4 элемента
+        new_subs = [item.strip() for item in subs] 
+        
+    with open("subs2.txt", 'r') as file:
+        subs2 = file.readlines()
+        new_subs2 = [item.strip() for item in subs2]
+        
+    # Создаем пустой список, в котором будут храниться все списки по 5 элементов
     result = []
 
     # Разделяем исходный список на списки по 5 элементов
     for i in range(0, len(new_subs), 5):
         sublist = new_subs[i:i+5]
+        result.append(sublist)
+        
+    for i in range(0, len(new_subs2), 5):
+        sublist = new_subs2[i:i+5]
         result.append(sublist)
     
     return result
@@ -96,7 +106,7 @@ async def sendsubs(message: Message):
         if sublist is not None and sublist[0] is not None and sublist[0].lower() == groupnumber_lower:
             # Send substitutions
             foundsubs = True
-            subsinfo = f"<b>{parse_day()}</b>\nдля группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
+            subsinfo = f"Замены для группы <b>{sublist[0]}:</b>\n\n{sublist[1]}\n{sublist[2]}\n{sublist[3]}\n{sublist[4]}"
             await message.answer(subsinfo)
     if not foundsubs:
         await message.answer("Замен на эту группу нет")

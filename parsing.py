@@ -68,54 +68,6 @@ def parse_tables():
         return substitutions
                 
 
-
-# def parse_table1():
-#     URL = "https://auto-meh.ru/studentu/ochnoe-otdelenie/zameny-ochnogo-otdeleniya.html"
-#     page = requests.get(URL, headers=HEADERS)
-#     soup = BeautifulSoup(page.text, "lxml")
-    
-    
-#     table = soup.find('div', class_="itemFullText").find('table').find_all('td')
-    
-#     substitutions = []
-
-#     for item in table:
-#         p_tag = item.find('p')
-#         if p_tag is not None:
-#             substitutions.append(p_tag.text)
-#         else:
-#             substitutions.append("")
-        
-#         with open("subs.txt", "w") as file:
-#             for i in substitutions:
-#                 file.writelines(i + '\n')
-
-#     return substitutions
-
-
-# def parse_table2():
-#     URL = "https://auto-meh.ru/studentu/ochnoe-otdelenie/zameny-ochnogo-otdeleniya.html"
-#     page = requests.get(URL, headers=HEADERS)
-#     soup = BeautifulSoup(page.text, "lxml")
-    
-    
-#     table = soup.find('div', class_="itemFullText").find('table')[1].find_all('td')
-    
-#     substitutions = []
-
-#     for item in table:
-#         p_tag = item.find('p')
-#         if p_tag is not None:
-#             substitutions.append(p_tag.text)
-#         else:
-#             substitutions.append("")
-        
-#         with open("subs2.txt", "w") as file:
-#             for i in substitutions:
-#                 file.writelines(i + '\n')
-
-#     return substitutions
-
 def parse_day():
     URL = "https://auto-meh.ru/studentu/ochnoe-otdelenie/zameny-ochnogo-otdeleniya.html"
     page = requests.get(URL, headers=HEADERS)
